@@ -71,12 +71,11 @@ interface StatCardProps {
   value:    number
   total:    number
   color:    string
-  formatFn: (n: number) => string
   unit:     string
   icon:     React.ReactNode
 }
 
-function StatCard({ label, sublabel, value, total, color, formatFn, unit, icon }: StatCardProps) {
+function StatCard({ label, sublabel, value, total, color, unit, icon }: StatCardProps) {
   const used    = total - value
   const pct     = Math.max(0, Math.min(100, (value / total) * 100))
   const usedPct = 100 - pct
@@ -153,16 +152,6 @@ function StatCard({ label, sublabel, value, total, color, formatFn, unit, icon }
         </div>
       </div>
     </div>
-  )
-}
-
-// ─── Pulse dot ───────────────────────────────────────────────────────────────
-function PulseDot({ active }: { active: boolean }) {
-  return (
-    <span className={`pulse-dot ${active ? 'pulse-dot--active' : ''}`} aria-hidden="true">
-      <span className="pulse-dot__ring" />
-      <span className="pulse-dot__core" />
-    </span>
   )
 }
 
@@ -269,7 +258,6 @@ export default function App() {
               value={data.remaining}
               total={TOTAL_QUOTA}
               color="#0369a1"
-              formatFn={formatNumber}
               unit="สิทธิ์"
               icon={
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
