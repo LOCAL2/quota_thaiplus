@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/quota",
+      "destination": "https://info.xn--42caj4e1a2ame9b2cq0dyo.com/halfhalf/quota"
+    }
+  ]
+}
