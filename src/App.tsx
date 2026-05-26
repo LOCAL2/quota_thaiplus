@@ -153,7 +153,7 @@ export default function App() {
               <div className="stats-divider" aria-hidden="true" />
 
               <div className="stat-item">
-                <span className="stat-item__label">อัตราการใช้</span>
+                <span className="stat-item__label">ได้รับสิทธิ์แล้ว (%)</span>
                 <span className="stat-item__value stat-item__value--amber">
                   {pctUsed.toFixed(2)}%
                 </span>
