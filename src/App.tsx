@@ -116,15 +116,17 @@ export default function App() {
               </div>
             </div>
 
-            {/* Progress bar — remaining */}
+            {/* Progress bar — used */}
             <div className="progress-section">
               <div className="progress-header">
-                <span className="progress-header__label">สิทธิ์คงเหลือ</span>
-                <span className="progress-header__pct">{pctLeft.toFixed(2)}%</span>
+                <span className="progress-header__label">สิทธิ์ที่ใช้ไปแล้ว</span>
+                <span className="progress-header__pct">
+                  {used.toLocaleString('en-US').replace(/,/g, ',')} / 30,000,000
+                </span>
               </div>
               <div className="progress-track" role="progressbar"
-                aria-valuenow={pctLeft} aria-valuemin={0} aria-valuemax={100}>
-                <div className="progress-fill" style={{ width: `${pctLeft}%` }} />
+                aria-valuenow={pctUsed} aria-valuemin={0} aria-valuemax={100}>
+                <div className="progress-fill progress-fill--used" style={{ width: `${pctUsed}%` }} />
               </div>
             </div>
 
