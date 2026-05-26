@@ -299,7 +299,7 @@ body {
   padding: 20px 24px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .stat-item__label {
@@ -310,25 +310,11 @@ body {
   color: var(--text-subtle);
 }
 
-.stat-item__number-group {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  line-height: 1;
-}
-
 .stat-item__value {
   font-family: var(--font-mono);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1;
-}
-
-.stat-item__unit {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-subtle);
 }
 
 .stat-item__value--blue   { color: var(--blue);  text-shadow: 0 0 20px var(--blue-glow); }
@@ -338,7 +324,6 @@ body {
 .stat-item__sub {
   font-size: 11px;
   color: var(--text-subtle);
-  margin-top: 2px;
 }
 
 /* ─── Error banner ──────────────────────────────────────────────────────────── */
