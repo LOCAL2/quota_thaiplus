@@ -110,10 +110,14 @@ export default function App() {
 
             {/* Big number */}
             <div className="quota-display">
-              <p className="quota-display__label">สิทธิ์คงเหลือ</p>
+              <div className="quota-display__eyebrow">
+                <span className="quota-display__dot" aria-hidden="true" />
+                <span className="quota-display__label">สิทธิ์คงเหลือ</span>
+              </div>
               <div className="quota-display__number" aria-live="polite" aria-atomic="true">
                 <LiveCountUp value={data.remaining} />
               </div>
+              <p className="quota-display__caption">สิทธิ์</p>
             </div>
 
             {/* Progress bar — used */}

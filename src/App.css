@@ -204,33 +204,53 @@ body {
 .quota-display {
   text-align: center;
   margin-bottom: 36px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--border);
+}
+
+.quota-display__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.quota-display__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green-glow);
+  animation: blink 2s ease-in-out infinite;
 }
 
 .quota-display__label {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 2px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   color: var(--text-subtle);
-  margin-bottom: 12px;
 }
 
 .quota-display__number {
   font-family: var(--font-mono);
-  font-size: clamp(48px, 10vw, 80px);
+  font-size: clamp(56px, 12vw, 96px);
   font-weight: 700;
   color: var(--blue);
   line-height: 1;
-  letter-spacing: -2px;
-  text-shadow: 0 0 40px rgba(59,130,246,0.4);
-  margin-bottom: 6px;
+  letter-spacing: -3px;
+  text-shadow:
+    0 0 60px rgba(59,130,246,0.35),
+    0 0 20px rgba(59,130,246,0.2);
+  margin-bottom: 10px;
 }
 
-.quota-display__unit {
-  font-size: 14px;
-  color: var(--text-muted);
-  font-weight: 400;
-  letter-spacing: 1px;
+.quota-display__caption {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-subtle);
 }
 
 /* ─── Progress section ──────────────────────────────────────────────────────── */
