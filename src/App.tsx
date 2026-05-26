@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import CountUp from './CountUp'
 import './App.css'
 
@@ -40,26 +40,11 @@ function CircularProgress({ pct, color, size = 160 }: { pct: number; color: stri
 
 // ─── Animated CountUp wrapper that re-animates on value change ───────────────
 function LiveCountUp({ value, separator = ',' }: { value: number; separator?: string }) {
-  const prevRef = useRef<number>(value)
-  const [key, setKey]   = useState(0)
-  const [from, setFrom] = useState(value)
-
-  useEffect(() => {
-    if (value !== prevRef.current) {
-      setFrom(prevRef.current)
-      prevRef.current = value
-      setKey(k => k + 1)
-    }
-  }, [value])
-
   return (
     <CountUp
-      key={key}
-      from={from}
       to={value}
       separator={separator}
-      duration={0.8}
-      direction={value >= from ? 'up' : 'down'}
+      duration={0.6}
     />
   )
 }
@@ -114,7 +99,6 @@ function StatCard({ label, sublabel, value, total, color, unit, icon }: StatCard
             </div>
           </div>
 
-          {/* ใช้ไปแล้ว */}
           <div className="stat-card__number-row">
             <span className="stat-card__number-dot" style={{ background: '#94a3b8' }} />
             <div>
@@ -141,7 +125,6 @@ function StatCard({ label, sublabel, value, total, color, unit, icon }: StatCard
         </div>
       </div>
 
-      {/* Progress bar */}
       <div className="stat-card__bar-wrap" aria-label={`ใช้ไปแล้ว ${usedPct.toFixed(1)}%`}>
         <div className="stat-card__bar-track">
           <div className="stat-card__bar-fill" style={{ width: `${usedPct}%`, background: color }} />
@@ -210,9 +193,7 @@ export default function App() {
         </div>
       </header>
 
-      {/* ── Main ── */}
       <main className="main" id="main-content">
-        {/* Hero */}
         <section className="hero-banner" aria-label="ข้อมูลโครงการ">
           <div className="hero-banner__inner">
             <div className="hero-banner__badge">โครงการรัฐบาล</div>
@@ -223,7 +204,6 @@ export default function App() {
           </div>
         </section>
 
-        {/* Error */}
         {error && (
           <div className="error-banner" role="alert">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
