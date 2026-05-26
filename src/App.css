@@ -99,6 +99,7 @@ body {
   width: auto;
   object-fit: contain;
   display: block;
+  mix-blend-mode: screen;
 }
 
 .header__title {

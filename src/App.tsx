@@ -77,10 +77,6 @@ export default function App() {
 
         {/* Page title */}
         <div className="page-title">
-          <div className="page-title__badge">
-            <span className="page-title__dot" aria-hidden="true" />
-            Real-time
-          </div>
           <h1 className="page-title__h1">ติดตาม Quota คงเหลือ</h1>
           <p className="page-title__sub">โครงการไทยช่วยไทย พลัส · อัปเดตทุก 1 วินาที</p>
         </div>
