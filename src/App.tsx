@@ -60,13 +60,13 @@ export default function App() {
       <header className="header">
         <div className="header__inner">
           <div className="header__brand">
-            <div className="header__logo" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-              </svg>
-            </div>
-            <span className="header__title">ไทยช่วยไทย พลัส</span>
+            <img
+              src="/thai-chuay-thai-plus-60-40.webp"
+              alt="โครงการไทยช่วยไทย พลัส"
+              className="header__logo-img"
+              width="80"
+              height="53"
+            />
           </div>
           {timeStr && <span className="header__time">{timeStr}</span>}
         </div>
