@@ -87,7 +87,7 @@ export default function App() {
               height="53"
             />
           </div>
-          {timeStr && <span className="header__time">{timeStr}</span>}
+          {timeStr && <span className="header__time">อัปเดตล่าสุด {timeStr}</span>}
         </div>
       </header>
 
