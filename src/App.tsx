@@ -78,7 +78,7 @@ export default function App() {
         {/* Page title */}
         <div className="page-title">
           <h1 className="page-title__h1">ติดตาม Quota คงเหลือ</h1>
-          <p className="page-title__sub">โครงการไทยช่วยไทย พลัส · อัปเดตทุก 1 วินาที</p>
+          <p className="page-title__sub">โครงการไทยช่วยไทย พลัส</p>
         </div>
 
         {/* Error */}
