@@ -143,7 +143,7 @@ export default function App() {
               <div className="progress-header">
                 <span className="progress-header__label">สิทธิ์ที่ใช้ไปแล้ว</span>
                 <span className="progress-header__pct">
-                  {used.toLocaleString('en-US').replace(/,/g, ',')} / 30,000,000
+                  <LiveCountUp value={used} /> / 30,000,000
                 </span>
               </div>
               <div className="progress-track" role="progressbar"
