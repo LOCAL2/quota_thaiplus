@@ -114,7 +114,6 @@ export default function App() {
               <div className="quota-display__number" aria-live="polite" aria-atomic="true">
                 <LiveCountUp value={data.remaining} />
               </div>
-              <p className="quota-display__unit">สิทธิ์ จากทั้งหมด 30,000,000 สิทธิ์</p>
             </div>
 
             {/* Progress bar — remaining */}
@@ -156,7 +155,7 @@ export default function App() {
                 <span className="stat-item__value stat-item__value--amber">
                   {pctUsed.toFixed(2)}%
                 </span>
-                <span className="stat-item__sub">ของทั้งหมด</span>
+                <span className="stat-item__sub">จากทั้งหมด 30,000,000 สิทธิ์</span>
               </div>
             </div>
 
