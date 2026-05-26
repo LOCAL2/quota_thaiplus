@@ -112,7 +112,7 @@ body {
 .header__time {
   font-family: var(--font-mono);
   font-size: 12px;
-  color: var(--text-subtle);
+  color: var(--text-muted);
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--border);
   padding: 4px 12px;
@@ -241,7 +241,7 @@ body {
   font-weight: 500;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--text-subtle);
+  color: var(--text-muted);
 }
 
 /* ─── Progress section ──────────────────────────────────────────────────────── */
