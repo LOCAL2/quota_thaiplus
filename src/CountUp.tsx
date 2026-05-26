@@ -61,6 +61,13 @@ export default function CountUp({
   // ── animate to new `to` whenever it changes ──────────────────────────────
   useEffect(() => {
     if (!startWhen) return
+
+    // if from === to, just display the value immediately without animating
+    if (from === to) {
+      if (ref.current) ref.current.textContent = formatValue(to)
+      return
+    }
+
     if (typeof onStart === 'function') onStart()
 
     const timeoutId = setTimeout(() => {

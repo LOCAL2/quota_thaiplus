@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import CountUp from './CountUp'
 import './App.css'
 
@@ -13,9 +13,28 @@ const TOTAL_QUOTA   = 30_000_000
 const API_URL       = '/api/quota'
 const POLL_INTERVAL = 1_000
 
-// ─── LiveCountUp — no remount, spring animates to new value ──────────────────
+// ─── LiveCountUp — animate only on change, not on first load ─────────────────
 function LiveCountUp({ value, separator = ',' }: { value: number; separator?: string }) {
-  return <CountUp to={value} separator={separator} duration={0.8} />
+  const isFirst = useRef(true)
+  const [from, setFrom] = useState(value)
+  const [to,   setTo]   = useState(value)
+  const prev = useRef(value)
+
+  useEffect(() => {
+    if (isFirst.current) {
+      // first render — show immediately, no animation
+      isFirst.current = false
+      prev.current = value
+      return
+    }
+    if (value !== prev.current) {
+      setFrom(prev.current)
+      setTo(value)
+      prev.current = value
+    }
+  }, [value])
+
+  return <CountUp from={from} to={to} separator={separator} duration={0.8} />
 }
 
 // ─── App ─────────────────────────────────────────────────────────────────────
@@ -77,8 +96,8 @@ export default function App() {
 
         {/* Page title */}
         <div className="page-title">
-          <h1 className="page-title__h1">ติดตาม Quota คงเหลือ</h1>
-          <p className="page-title__sub">โครงการไทยช่วยไทย พลัส</p>
+          <h1 className="page-title__h1">โครงการไทยช่วยไทย พลัส</h1>
+          <p className="page-title__sub">ติดตาม Quota สิทธิ์คงเหลือแบบ Real-time</p>
         </div>
 
         {/* Error */}
@@ -111,7 +130,6 @@ export default function App() {
             {/* Big number */}
             <div className="quota-display">
               <div className="quota-display__eyebrow">
-                <span className="quota-display__dot" aria-hidden="true" />
                 <span className="quota-display__label">สิทธิ์คงเหลือ</span>
               </div>
               <div className="quota-display__number" aria-live="polite" aria-atomic="true">
