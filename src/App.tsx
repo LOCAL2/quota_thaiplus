@@ -134,30 +134,37 @@ export default function App() {
             <div className="stats-row">
               <div className="stat-item">
                 <span className="stat-item__label">คงเหลือ</span>
-                <span className="stat-item__value stat-item__value--blue">
-                  <LiveCountUp value={data.remaining} />
-                </span>
-                <span className="stat-item__sub">สิทธิ์</span>
+                <div className="stat-item__number-group">
+                  <span className="stat-item__value stat-item__value--blue">
+                    <LiveCountUp value={data.remaining} />
+                  </span>
+                  <span className="stat-item__unit">สิทธิ์</span>
+                </div>
               </div>
 
               <div className="stats-divider" aria-hidden="true" />
 
               <div className="stat-item">
                 <span className="stat-item__label">ใช้ไปแล้ว</span>
-                <span className="stat-item__value stat-item__value--red">
-                  <LiveCountUp value={used} />
-                </span>
-                <span className="stat-item__sub">สิทธิ์</span>
+                <div className="stat-item__number-group">
+                  <span className="stat-item__value stat-item__value--red">
+                    <LiveCountUp value={used} />
+                  </span>
+                  <span className="stat-item__unit">สิทธิ์</span>
+                </div>
               </div>
 
               <div className="stats-divider" aria-hidden="true" />
 
               <div className="stat-item">
-                <span className="stat-item__label">ได้รับสิทธิ์แล้ว (%)</span>
-                <span className="stat-item__value stat-item__value--amber">
-                  {pctUsed.toFixed(2)}%
-                </span>
-                <span className="stat-item__sub">จากทั้งหมด 30,000,000 สิทธิ์</span>
+                <span className="stat-item__label">ได้รับสิทธิ์แล้ว</span>
+                <div className="stat-item__number-group">
+                  <span className="stat-item__value stat-item__value--amber">
+                    {pctUsed.toFixed(2)}
+                  </span>
+                  <span className="stat-item__unit">%</span>
+                </div>
+                <span className="stat-item__sub">จาก 30,000,000 สิทธิ์</span>
               </div>
             </div>
 
