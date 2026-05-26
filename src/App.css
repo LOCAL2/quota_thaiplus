@@ -318,7 +318,7 @@ body {
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--text-subtle);
+  color: var(--text-muted);
 }
 
 .stat-item__value {
@@ -334,7 +334,7 @@ body {
 
 .stat-item__sub {
   font-size: 11px;
-  color: var(--text-subtle);
+  color: var(--text-muted);
 }
 
 /* ─── Error banner ──────────────────────────────────────────────────────────── */
