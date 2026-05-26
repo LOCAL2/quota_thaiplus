@@ -11,134 +11,14 @@ interface QuotaData {
 // ─── Constants ───────────────────────────────────────────────────────────────
 const TOTAL_QUOTA   = 30_000_000
 const API_URL       = '/api/quota'
-const POLL_INTERVAL = 1_000 // 1 second
+const POLL_INTERVAL = 1_000
 
-// ─── Format helpers ──────────────────────────────────────────────────────────
-function formatNumber(n: number) {
-  return n.toLocaleString('th-TH')
-}
-
-// ─── Circular Progress ───────────────────────────────────────────────────────
-function CircularProgress({ pct, color, size = 160 }: { pct: number; color: string; size?: number }) {
-  const r      = (size - 16) / 2
-  const circ   = 2 * Math.PI * r
-  const offset = circ - (pct / 100) * circ
-
-  return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
-      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="currentColor" strokeWidth="8" className="ring-track" />
-      <circle
-        cx={size/2} cy={size/2} r={r}
-        fill="none" stroke={color} strokeWidth="8" strokeLinecap="round"
-        strokeDasharray={circ} strokeDashoffset={offset}
-        transform={`rotate(-90 ${size/2} ${size/2})`}
-        style={{ transition: 'stroke-dashoffset 0.8s cubic-bezier(0.16,1,0.3,1)' }}
-      />
-    </svg>
-  )
-}
-
-// ─── Animated CountUp wrapper that re-animates on value change ───────────────
+// ─── LiveCountUp — no remount, spring animates to new value ──────────────────
 function LiveCountUp({ value, separator = ',' }: { value: number; separator?: string }) {
-  return (
-    <CountUp
-      to={value}
-      separator={separator}
-      duration={0.6}
-    />
-  )
+  return <CountUp to={value} separator={separator} duration={0.8} />
 }
 
-// ─── Stat Card ───────────────────────────────────────────────────────────────
-interface StatCardProps {
-  label:    string
-  sublabel: string
-  value:    number
-  total:    number
-  color:    string
-  unit:     string
-  icon:     React.ReactNode
-}
-
-function StatCard({ label, sublabel, value, total, color, unit, icon }: StatCardProps) {
-  const used    = total - value
-  const pct     = Math.max(0, Math.min(100, (value / total) * 100))
-  const usedPct = 100 - pct
-
-  return (
-    <div className="stat-card" role="region" aria-label={label}>
-      <div className="stat-card__header">
-        <div className="stat-card__icon" style={{ color }}>{icon}</div>
-        <div>
-          <h2 className="stat-card__label">{label}</h2>
-          <p className="stat-card__sublabel">{sublabel}</p>
-        </div>
-      </div>
-
-      <div className="stat-card__body">
-        {/* Ring */}
-        <div className="stat-card__ring">
-          <CircularProgress pct={pct} color={color} size={160} />
-          <div className="stat-card__ring-inner">
-            <span className="stat-card__pct" style={{ color }}>{pct.toFixed(1)}%</span>
-            <span className="stat-card__pct-label">คงเหลือ</span>
-          </div>
-        </div>
-
-        {/* Numbers */}
-        <div className="stat-card__numbers">
-          {/* คงเหลือ */}
-          <div className="stat-card__number-row">
-            <span className="stat-card__number-dot" style={{ background: color }} />
-            <div>
-              <p className="stat-card__number-label">คงเหลือ</p>
-              <p className="stat-card__number-value" style={{ color }}>
-                <LiveCountUp value={value} separator="," />
-                {' '}<span className="stat-card__unit">{unit}</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="stat-card__number-row">
-            <span className="stat-card__number-dot" style={{ background: '#94a3b8' }} />
-            <div>
-              <p className="stat-card__number-label">ใช้ไปแล้ว</p>
-              <p className="stat-card__number-value stat-card__number-value--muted">
-                <LiveCountUp value={used} separator="," />
-                {' '}<span className="stat-card__unit">{unit}</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="stat-card__divider" />
-
-          {/* ทั้งหมด */}
-          <div className="stat-card__number-row">
-            <span className="stat-card__number-dot" style={{ background: '#e2e8f0' }} />
-            <div>
-              <p className="stat-card__number-label">ทั้งหมด</p>
-              <p className="stat-card__number-value stat-card__number-value--total">
-                {formatNumber(total)}{' '}<span className="stat-card__unit">{unit}</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="stat-card__bar-wrap" aria-label={`ใช้ไปแล้ว ${usedPct.toFixed(1)}%`}>
-        <div className="stat-card__bar-track">
-          <div className="stat-card__bar-fill" style={{ width: `${usedPct}%`, background: color }} />
-        </div>
-        <div className="stat-card__bar-labels">
-          <span>ใช้ไปแล้ว {usedPct.toFixed(1)}%</span>
-          <span>คงเหลือ {pct.toFixed(1)}%</span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// ─── Main App ────────────────────────────────────────────────────────────────
+// ─── App ─────────────────────────────────────────────────────────────────────
 export default function App() {
   const [data,        setData]        = useState<QuotaData | null>(null)
   const [loading,     setLoading]     = useState(true)
@@ -147,7 +27,7 @@ export default function App() {
 
   const fetchData = useCallback(async () => {
     try {
-      const res  = await fetch(API_URL, { cache: 'no-store' })
+      const res = await fetch(API_URL, { cache: 'no-store' })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const json: QuotaData = await res.json()
       setData(json)
@@ -170,6 +50,10 @@ export default function App() {
     ? lastUpdated.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
     : null
 
+  const used    = data ? TOTAL_QUOTA - data.remaining : 0
+  const pctLeft = data ? (data.remaining / TOTAL_QUOTA) * 100 : 100
+  const pctUsed = 100 - pctLeft
+
   return (
     <div className="app">
       {/* ── Header ── */}
@@ -178,36 +62,34 @@ export default function App() {
           <div className="header__brand">
             <div className="header__logo" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                strokeLinecap="round" strokeLinejoin="round" width="24" height="24">
-                <path d="M3 3h18v18H3z" /><path d="M3 9h18M9 21V9" />
+                strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
               </svg>
             </div>
-            <div>
-              <h1 className="header__title">ไทยช่วยไทย พลัส</h1>
-            </div>
+            <span className="header__title">ไทยช่วยไทย พลัส</span>
           </div>
-
-          <div className="header__status">
-            {timeStr && <span className="header__time">อัปเดต {timeStr}</span>}
-          </div>
+          {timeStr && <span className="header__time">{timeStr}</span>}
         </div>
       </header>
 
+      {/* ── Main ── */}
       <main className="main" id="main-content">
-        <section className="hero-banner" aria-label="ข้อมูลโครงการ">
-          <div className="hero-banner__inner">
-            <div className="hero-banner__badge">โครงการรัฐบาล</div>
-            <h2 className="hero-banner__title">โครงการไทยช่วยไทย พลัส</h2>
-            <p className="hero-banner__desc">
-              ติดตาม Quota สิทธิ์คงเหลือและงบประมาณแบบ Real-time
-            </p>
-          </div>
-        </section>
 
+        {/* Page title */}
+        <div className="page-title">
+          <div className="page-title__badge">
+            <span className="page-title__dot" aria-hidden="true" />
+            Real-time
+          </div>
+          <h1 className="page-title__h1">ติดตาม Quota คงเหลือ</h1>
+          <p className="page-title__sub">โครงการไทยช่วยไทย พลัส · อัปเดตทุก 1 วินาที</p>
+        </div>
+
+        {/* Error */}
         {error && (
           <div className="error-banner" role="alert">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-              width="20" height="20" aria-hidden="true">
+              width="18" height="18" aria-hidden="true">
               <circle cx="12" cy="12" r="10" />
               <line x1="12" y1="8" x2="12" y2="12" />
               <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -219,63 +101,72 @@ export default function App() {
 
         {/* Skeleton */}
         {loading && (
-          <div className="cards-grid cards-grid--single" aria-busy="true" aria-label="กำลังโหลดข้อมูล">
-            <div className="skeleton-card">
-              <div className="skeleton skeleton--title" />
-              <div className="skeleton skeleton--circle" />
-              <div className="skeleton skeleton--bar" />
-              <div className="skeleton skeleton--bar skeleton--bar-short" />
-            </div>
+          <div className="skeleton-card" aria-busy="true" aria-label="กำลังโหลด">
+            <div className="skeleton skeleton--number" />
+            <div className="skeleton skeleton--bar" style={{ width: '100%' }} />
+            <div className="skeleton skeleton--stats" />
           </div>
         )}
 
-        {/* Cards */}
+        {/* Main quota card */}
         {!loading && data && (
-          <div className="cards-grid cards-grid--single">
-            <StatCard
-              label="สิทธิ์คงเหลือ"
-              sublabel="จำนวนสิทธิ์ที่ยังไม่ถูกใช้งาน"
-              value={data.remaining}
-              total={TOTAL_QUOTA}
-              color="#0369a1"
-              unit="สิทธิ์"
-              icon={
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                  strokeLinecap="round" strokeLinejoin="round" width="22" height="22" aria-hidden="true">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-              }
-            />
+          <div className="quota-card">
+
+            {/* Big number */}
+            <div className="quota-display">
+              <p className="quota-display__label">สิทธิ์คงเหลือ</p>
+              <div className="quota-display__number" aria-live="polite" aria-atomic="true">
+                <LiveCountUp value={data.remaining} />
+              </div>
+              <p className="quota-display__unit">สิทธิ์ จากทั้งหมด 30,000,000 สิทธิ์</p>
+            </div>
+
+            {/* Progress bar — remaining */}
+            <div className="progress-section">
+              <div className="progress-header">
+                <span className="progress-header__label">สิทธิ์คงเหลือ</span>
+                <span className="progress-header__pct">{pctLeft.toFixed(2)}%</span>
+              </div>
+              <div className="progress-track" role="progressbar"
+                aria-valuenow={pctLeft} aria-valuemin={0} aria-valuemax={100}>
+                <div className="progress-fill" style={{ width: `${pctLeft}%` }} />
+              </div>
+            </div>
+
+            {/* Stats row */}
+            <div className="stats-row">
+              <div className="stat-item">
+                <span className="stat-item__label">คงเหลือ</span>
+                <span className="stat-item__value stat-item__value--blue">
+                  <LiveCountUp value={data.remaining} />
+                </span>
+                <span className="stat-item__sub">สิทธิ์</span>
+              </div>
+
+              <div className="stats-divider" aria-hidden="true" />
+
+              <div className="stat-item">
+                <span className="stat-item__label">ใช้ไปแล้ว</span>
+                <span className="stat-item__value stat-item__value--red">
+                  <LiveCountUp value={used} />
+                </span>
+                <span className="stat-item__sub">สิทธิ์</span>
+              </div>
+
+              <div className="stats-divider" aria-hidden="true" />
+
+              <div className="stat-item">
+                <span className="stat-item__label">อัตราการใช้</span>
+                <span className="stat-item__value stat-item__value--amber">
+                  {pctUsed.toFixed(2)}%
+                </span>
+                <span className="stat-item__sub">ของทั้งหมด</span>
+              </div>
+            </div>
+
           </div>
         )}
 
-        {/* Summary */}
-        {!loading && data && (() => {
-          const usedQuota = TOTAL_QUOTA - data.remaining
-          return (
-          <section className="summary-bar" aria-label="สรุปข้อมูล">
-            <div className="summary-bar__inner">
-              <div className="summary-item">
-                <span className="summary-item__label">สิทธิ์ที่ใช้ไปแล้ว</span>
-                <span className="summary-item__value summary-item__value--blue">
-                  <LiveCountUp value={usedQuota} separator="," />
-                  {' '}สิทธิ์
-                </span>
-              </div>
-              <div className="summary-divider" aria-hidden="true" />
-              <div className="summary-item">
-                <span className="summary-item__label">อัตราการใช้สิทธิ์</span>
-                <span className="summary-item__value summary-item__value--orange">
-                  {((usedQuota / TOTAL_QUOTA) * 100).toFixed(2)}%
-                </span>
-              </div>
-            </div>
-          </section>
-          )
-        })()}
       </main>
     </div>
   )
