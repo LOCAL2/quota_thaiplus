@@ -61,7 +61,7 @@ export default function App() {
         <div className="header__inner">
           <div className="header__brand">
             <img
-              src="/thai-chuay-thai-plus-60-40.webp"
+              src="/thai-chuay-thai-plus-60-40.png"
               alt="โครงการไทยช่วยไทย พลัส"
               className="header__logo-img"
               width="80"
